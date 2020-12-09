@@ -28,7 +28,7 @@ public class FinalProject {
         // Player's Input's
         int x = 1;
         int y = 2; 
-        boolean answer =false;
+        boolean answer = false;
         // Player's Input's
         
         // current box size
@@ -43,6 +43,11 @@ public class FinalProject {
     
         int[] boxSize = new int[250000];
         int[] answeredRows = new int[250000];
+        int[] livesLostOnPoints = new int[250000];
+        
+        for (int r = 0; r < livesLostOnPoints.length; r++) {
+            livesLostOnPoints[r] = 0;
+        }
         
         for (int q = 0; q < answeredRows.length; q++) {
             answeredRows[q] = 0;
@@ -85,7 +90,8 @@ public class FinalProject {
             //check to see if the player has lost
             answer = true;
             for (int e = 0; e < (rowWidth*rowAmountNumber); e++) {
-                if (answeredRows[e] == 1 && boxSize[e] > 8) {
+                if (answeredRows[e] == 1 && boxSize[e] > 8 && livesLostOnPoints[e] == 0) {
+                    livesLostOnPoints[e] = 1;
                     livesLostOnLevel = livesLostOnLevel + 1;
                 }
             }
@@ -123,7 +129,7 @@ public class FinalProject {
         
     }
     
-    public static void changeLevel(int rowWidth,int rowAmountNumber,int[] startRows,int[] answeredRows){
+    public static void changeLevel(int rowWidth,int rowAmountNumber,int[] startRows,int[] answeredRows,int[] livesLostOnPoints){
         int maxNeeded = 0;
         int currentAnswered = 0;
         for (int q = 0; q<(rowWidth*rowAmountNumber); q++) {
@@ -138,6 +144,9 @@ public class FinalProject {
         }
         if (maxNeeded == currentAnswered) {
             int calculateIncrease = (int) (rowWidth/2);
+            for (int v = 0; v < livesLostOnPoints.length; v++) {
+                livesLostOnPoints[v] = 0;
+            }
             if (calculateIncrease > 3) {
                 rowWidth = rowWidth + 3;
                 rowAmountNumber = rowAmountNumber + 3;
