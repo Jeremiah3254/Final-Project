@@ -20,7 +20,7 @@ public class FinalProject {
         String spacers = "  ";
         
         //
-        int CurrentLives = 1;
+        int CurrentLives = 5;
         int livesLostOnLevel = 0;
         int livesLostOnRound = 0;
         //
@@ -32,8 +32,8 @@ public class FinalProject {
         // Player's Input's
         
         // current box size
-        int rowWidth = 5;
-        int rowAmountNumber = 5;
+        int rowWidth = 1;
+        int rowAmountNumber = 2;
         // current box size
         
         // other Variables
@@ -85,6 +85,7 @@ public class FinalProject {
         System.out.println("Grid Scale: (1-"+rowWidth+"),(1-"+rowAmountNumber+")");
         
         while (answer == false) {
+            changeLevel(rowWidth,rowAmountNumber,boxSize,answeredRows,livesLostOnPoints,CurrentLives,livesLostOnLevel);
             //check to see if the player has lost
             //checkAmountOfLives(CurrentLives,gameOver,boxSize,answeredRows,rowWidth,rowAmountNumber);
             //check to see if the player has lost
@@ -129,7 +130,7 @@ public class FinalProject {
         
     }
     
-    public static void changeLevel(int rowWidth,int rowAmountNumber,int[] startRows,int[] answeredRows,int[] livesLostOnPoints){
+    public static void changeLevel(int rowWidth,int rowAmountNumber,int[] startRows,int[] answeredRows,int[] livesLostOnPoints,int CurrentLives,int livesLostOnLevel){
         int maxNeeded = 0;
         int currentAnswered = 0;
         for (int q = 0; q<(rowWidth*rowAmountNumber); q++) {
@@ -142,8 +143,14 @@ public class FinalProject {
                 currentAnswered += 1;
             }
         }
+        
         if (maxNeeded == currentAnswered) {
             int calculateIncrease = (int) (rowWidth/2);
+            if (CurrentLives > 3) {
+                CurrentLives = CurrentLives+0;
+            } else {
+                CurrentLives = CurrentLives+(3-livesLostOnLevel);
+            }
             for (int v = 0; v < livesLostOnPoints.length; v++) {
                 livesLostOnPoints[v] = 0;
             }
