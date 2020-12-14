@@ -19,8 +19,12 @@ public class FinalProject {
         
         String spacers = "  ";
         
+        //current level
+        int level = 0;
+        //current level
+        
         //
-        int CurrentLives = 5;
+        int CurrentLives = 1;
         int livesLostOnLevel = 0;
         int livesLostOnRound = 0;
         //
@@ -32,7 +36,7 @@ public class FinalProject {
         // Player's Input's
         
         // current box size
-        int rowWidth = 1;
+        int rowWidth = 2;
         int rowAmountNumber = 2;
         // current box size
         
@@ -57,7 +61,6 @@ public class FinalProject {
             answeredRows[i] = 1;
         }*/
     System.out.println("Current Lives: "+CurrentLives);
-     //boxSize.length
         for (int i = 0; i < (rowWidth*rowAmountNumber); i++) {
             
             boxSize[i] = (int) (Math.random()*11);
@@ -85,10 +88,61 @@ public class FinalProject {
         System.out.println("Grid Scale: (1-"+rowWidth+"),(1-"+rowAmountNumber+")");
         
         while (answer == false) {
-            changeLevel(rowWidth,rowAmountNumber,boxSize,answeredRows,livesLostOnPoints,CurrentLives,livesLostOnLevel);
-            //check to see if the player has lost
-            //checkAmountOfLives(CurrentLives,gameOver,boxSize,answeredRows,rowWidth,rowAmountNumber);
-            //check to see if the player has lost
+            //check for level
+            int maxNeeded = 0;
+            int currentAnswered = 0;
+            for (int q = 0; q<(rowWidth*rowAmountNumber); q++) {
+                if (boxSize[q] <= 8) {
+                    maxNeeded += 1;
+                }
+            }
+            for (int i = 0; i<(rowWidth*rowAmountNumber); i++) {
+                if (boxSize[i] <= 8 && answeredRows[i] == 1) {
+                    currentAnswered += 1;
+                }
+            }
+
+            if (maxNeeded == currentAnswered) {
+                int calculateIncrease = (int) (rowWidth/2)+1;
+                for (int i = 0; i < (rowWidth*rowAmountNumber); i++) {
+                   answeredRows[i] = 1;
+               }
+               questionAnswered(boxSize,answeredRows,rowWidth,rowAmountNumber,CurrentLives);
+               level = level + 1;
+               System.out.println("\n"+"-------------------------------------");
+                System.out.println("L e v e l "+"["+level+"]"+"  C o m p l e t e");
+                if (livesLostOnLevel > 3) {
+                    CurrentLives = CurrentLives+0;
+                    System.out.println("Lives Gained: "+"0");
+                } else {
+                    CurrentLives = CurrentLives+(3-livesLostOnLevel);
+                    System.out.println("Lives Gained: "+(3-livesLostOnLevel));
+                }
+                System.out.println("Bombs Exploded: "+livesLostOnLevel);
+                System.out.println("-------------------------------------"+"\n");
+                for (int w = 0; w < (rowWidth*rowAmountNumber); w++) {
+                    answeredRows[w] = 0;
+                }
+                for (int v = 0; v < livesLostOnPoints.length; v++) {
+                    livesLostOnPoints[v] = 0;
+                }
+                if (calculateIncrease > 2) {
+                    rowWidth = rowWidth + 2;
+                    rowAmountNumber = rowAmountNumber + 2;
+                } else {
+
+                    rowWidth = rowWidth + calculateIncrease;
+                    rowAmountNumber = rowAmountNumber + calculateIncrease;
+                }
+                livesLostOnLevel = 0;
+                livesLostOnRound = 0;
+                for (int b = 0; b < (rowWidth*rowAmountNumber); b++) {
+                    boxSize[b] = (int) (Math.random()*11);
+                }
+                questionAnswered(boxSize,answeredRows,rowWidth,rowAmountNumber,CurrentLives);
+            }
+            //check for level
+            //changeLevel(rowWidth,rowAmountNumber,boxSize,answeredRows,livesLostOnPoints,CurrentLives,livesLostOnLevel);
             answer = true;
             for (int e = 0; e < (rowWidth*rowAmountNumber); e++) {
                 if (answeredRows[e] == 1 && boxSize[e] > 8 && livesLostOnPoints[e] == 0) {
@@ -130,7 +184,7 @@ public class FinalProject {
         
     }
     
-    public static void changeLevel(int rowWidth,int rowAmountNumber,int[] startRows,int[] answeredRows,int[] livesLostOnPoints,int CurrentLives,int livesLostOnLevel){
+    /*public static void changeLevel(int rowWidth,int rowAmountNumber,int[] startRows,int[] answeredRows,int[] livesLostOnPoints,int CurrentLives,int livesLostOnLevel){
         int maxNeeded = 0;
         int currentAnswered = 0;
         for (int q = 0; q<(rowWidth*rowAmountNumber); q++) {
@@ -145,7 +199,8 @@ public class FinalProject {
         }
         
         if (maxNeeded == currentAnswered) {
-            int calculateIncrease = (int) (rowWidth/2);
+            int calculateIncrease = (int) (rowWidth/2)+1;
+            
             if (CurrentLives > 3) {
                 CurrentLives = CurrentLives+0;
             } else {
@@ -158,11 +213,13 @@ public class FinalProject {
                 rowWidth = rowWidth + 3;
                 rowAmountNumber = rowAmountNumber + 3;
             } else {
+                
                 rowWidth = rowWidth + calculateIncrease;
                 rowAmountNumber = rowAmountNumber + calculateIncrease;
+                System.out.println("worked kinda"+calculateIncrease+" "+rowWidth+" "+rowAmountNumber);
             }
         }
-    }
+    }*/
     
     public static void findCordinates(int cordinateOne, int cordinateTwo,int rowLength,int rowHeight,int[] otherStuff) {
         int calculateCordinates = (rowHeight*rowLength) - (cordinateTwo*rowLength);
