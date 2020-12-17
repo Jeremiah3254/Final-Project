@@ -29,8 +29,9 @@ public class FinalProject {
         int y = 2; 
         boolean answer = false;
         
-        int rowWidth = 2;
-        int rowAmountNumber = 2;
+        //int rowWidth = 2;
+        //int rowAmountNumber = 2;
+        Levels Onelevel = new Levels(2,2);
         
         int currentRowAmount = 0;
         int currentRowAmountNumber = 0;
@@ -48,11 +49,11 @@ public class FinalProject {
         }
         
     System.out.println("Current Lives: "+CurrentLives);
-        for (int i = 0; i < (rowWidth*rowAmountNumber); i++) {
+        for (int i = 0; i < (Onelevel.getRowWidth()*Onelevel.getRowAmountNumber()); i++) {
             
             boxSize[i] = (int) (Math.random()*11);
             
-        if (currentRowAmountNumber < rowAmountNumber) {
+        if (currentRowAmountNumber < Onelevel.getRowAmountNumber()) {
             
             if (boxSize[i] <= 8 && answeredRows[i] == 1) {
                 System.out.print("*"+spacers);
@@ -65,35 +66,35 @@ public class FinalProject {
                 currentRowAmount += 1;
             }
            
-            if (currentRowAmount == rowWidth) {
+            if (currentRowAmount == Onelevel.getRowWidth()) {
                 System.out.println(" "+spacers);
                 currentRowAmount = 0;
                 currentRowAmountNumber += 1;
                 } 
             }
         }
-        System.out.println("Grid Scale: (1-"+rowWidth+"),(1-"+rowAmountNumber+")");
+        System.out.println("Grid Scale: (1-"+Onelevel.getRowWidth()+"),(1-"+Onelevel.getRowAmountNumber()+")");
         
         while (answer == false) {
             int maxNeeded = 0;
             int currentAnswered = 0;
-            for (int q = 0; q<(rowWidth*rowAmountNumber); q++) {
+            for (int q = 0; q<(Onelevel.getRowWidth()*Onelevel.getRowAmountNumber()); q++) {
                 if (boxSize[q] <= 8) {
                     maxNeeded += 1;
                 }
             }
-            for (int i = 0; i<(rowWidth*rowAmountNumber); i++) {
+            for (int i = 0; i<(Onelevel.getRowWidth()*Onelevel.getRowAmountNumber()); i++) {
                 if (boxSize[i] <= 8 && answeredRows[i] == 1) {
                     currentAnswered += 1;
                 }
             }
 
             if (maxNeeded == currentAnswered) {
-                int calculateIncrease = (int) (rowWidth/2)+1;
-                for (int i = 0; i < (rowWidth*rowAmountNumber); i++) {
+                //int calculateIncrease = (int) (Onelevel.getRowWidth()/2)+1;
+                for (int i = 0; i < (Onelevel.getRowWidth()*Onelevel.getRowAmountNumber()); i++) {
                    answeredRows[i] = 1;
                }
-               questionAnswered(boxSize,answeredRows,rowWidth,rowAmountNumber,CurrentLives);
+               questionAnswered(boxSize,answeredRows,Onelevel.getRowWidth(),Onelevel.getRowAmountNumber(),CurrentLives);
                level = level + 1;
                System.out.println("\n"+"-------------------------------------");
                 System.out.println("L e v e l "+"["+level+"]"+"  C o m p l e t e");
@@ -106,30 +107,31 @@ public class FinalProject {
                 }
                 System.out.println("Bombs Exploded: "+livesLostOnLevel);
                 System.out.println("-------------------------------------"+"\n");
-                for (int w = 0; w < (rowWidth*rowAmountNumber); w++) {
+                for (int w = 0; w < (Onelevel.getRowWidth()*Onelevel.getRowAmountNumber()); w++) {
                     answeredRows[w] = 0;
                 }
                 for (int v = 0; v < livesLostOnPoints.length; v++) {
                     livesLostOnPoints[v] = 0;
                 }
-                if (calculateIncrease > 2) {
+                Onelevel.CalculateLevelIncrease(Onelevel);
+                /*if (calculateIncrease > 2) {
                     rowWidth = rowWidth + 2;
                     rowAmountNumber = rowAmountNumber + 2;
                 } else {
 
                     rowWidth = rowWidth + calculateIncrease;
                     rowAmountNumber = rowAmountNumber + calculateIncrease;
-                }
+                }*/
                 livesLostOnLevel = 0;
                 livesLostOnRound = 0;
-                for (int b = 0; b < (rowWidth*rowAmountNumber); b++) {
+                for (int b = 0; b < (Onelevel.getRowWidth()*Onelevel.getRowAmountNumber()); b++) {
                     boxSize[b] = (int) (Math.random()*11);
                 }
-                questionAnswered(boxSize,answeredRows,rowWidth,rowAmountNumber,CurrentLives);
+                questionAnswered(boxSize,answeredRows,Onelevel.getRowWidth(),Onelevel.getRowAmountNumber(),CurrentLives);
             }
 
             answer = true;
-            for (int e = 0; e < (rowWidth*rowAmountNumber); e++) {
+            for (int e = 0; e < (Onelevel.getRowWidth()*Onelevel.getRowAmountNumber()); e++) {
                 if (answeredRows[e] == 1 && boxSize[e] > 8 && livesLostOnPoints[e] == 0) {
                     livesLostOnPoints[e] = 1;
                     livesLostOnLevel = livesLostOnLevel + 1;
@@ -139,10 +141,10 @@ public class FinalProject {
             livesLostOnRound = livesLostOnLevel;
 
             if (CurrentLives <= 0) {
-               for (int i = 0; i < (rowWidth*rowAmountNumber); i++) {
+               for (int i = 0; i < (Onelevel.getRowWidth()*Onelevel.getRowAmountNumber()); i++) {
                    answeredRows[i] = 1;
                }
-               questionAnswered(boxSize,answeredRows,rowWidth,rowAmountNumber,CurrentLives);
+               questionAnswered(boxSize,answeredRows,Onelevel.getRowWidth(),Onelevel.getRowAmountNumber(),CurrentLives);
                System.out.println("G a m e  O v e r");
                 }else if (CurrentLives >= 1) {
                     System.out.println("Enter the cordinates of where you dont think the bombs are");
@@ -150,13 +152,13 @@ public class FinalProject {
                     x = kboard.nextInt();
                     System.out.print("Y cordinate:");
                     y = kboard.nextInt();
-                    if (x == 0 || y == 0 || x > rowWidth || y > rowAmountNumber) {
+                    if (x == 0 || y == 0 || x > Onelevel.getRowWidth() || y > Onelevel.getRowAmountNumber()) {
                         System.out.println("~Error; Invalid Inputs~");
-                        questionAnswered(boxSize,answeredRows,rowWidth,rowAmountNumber,CurrentLives);
+                        questionAnswered(boxSize,answeredRows,Onelevel.getRowWidth(),Onelevel.getRowAmountNumber(),CurrentLives);
                         answer = false;
                     }else {
-                        findCordinates(x,y,rowWidth,rowAmountNumber,answeredRows);
-                        questionAnswered(boxSize,answeredRows,rowWidth,rowAmountNumber,CurrentLives);
+                        findCordinates(x,y,Onelevel.getRowWidth(),Onelevel.getRowAmountNumber(),answeredRows);
+                        questionAnswered(boxSize,answeredRows,Onelevel.getRowWidth(),Onelevel.getRowAmountNumber(),CurrentLives);
                         answer = false;
                 }
             }
